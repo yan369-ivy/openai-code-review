@@ -3,6 +3,8 @@ package cn.yan.sdk;
 import cn.yan.sdk.domain.model.ChatCompletionSyncResponse;
 import cn.yan.sdk.types.utils.BearerTokenUtils;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -58,21 +60,17 @@ public class OpenAiCodeReview {
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setDoOutput(true);
 
-        String code = "1+1";
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("model", "deepseek-flash");
+        requestBody.put("stream", false);
 
-        String jsonInpuString = "{"
-                + "\"model\":\"deepseek-flash\","
-                + "\"messages\": ["
-                + "    {"
-                + "        \"role\": \"user\","
-                + "        \"content\": \"你是一个高级编程架构师，精通各类场景方案、架构设计和编程语言请，请您根据git diff记录，对代码做出评审。代码为: " + code + "\""
-                + "    }"
-                + "],"
-                + "\"stream\": false"
-                + "}";
+        JSONObject message = new JSONObject();
+        message.put("role", "user");
+        message.put("content", "你是一个高级编程架构师，精通各类场景方案、架构设计和编程语言请，请您根据git diff记录，对代码做出评审。代码为: " + diffCode);
+        requestBody.put("messages", new JSONArray().fluentAdd(message));
 
         try(OutputStream os = connection.getOutputStream()){
-            byte[] input = jsonInpuString.getBytes(StandardCharsets.UTF_8);
+            byte[] input = JSON.toJSONString(requestBody).getBytes(StandardCharsets.UTF_8);
             os.write(input);
         }
 
