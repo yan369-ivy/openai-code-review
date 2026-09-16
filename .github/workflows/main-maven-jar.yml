@@ -34,3 +34,4 @@ jobs:
         run: java -jar ./libs/openai-code-review-sdk-1.0.jar
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.CODE_TOKEN }}
