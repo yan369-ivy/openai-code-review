@@ -23,6 +23,7 @@ public class OpenAiCodeReview {
 
     private static final String GITHUB_TOKEN = "GITHUB_TOKEN";
     private static final String CODE_TOKEN = "CODE_TOKEN";
+    private static final String GITHUB_TOKEN_USERNAME = "x-access-token";
 
     public static void main(String[] args) throws Exception {
         System.out.println("测试执行");
@@ -115,10 +116,13 @@ public class OpenAiCodeReview {
     }
 
     private static String writeLog(String token, String log) throws Exception {
+        UsernamePasswordCredentialsProvider credentialsProvider =
+                new UsernamePasswordCredentialsProvider(GITHUB_TOKEN_USERNAME, token);
+
         Git git = Git.cloneRepository()
-                .setURI("https://github.com/yan369-ivy/openai-code-review-log")
+                .setURI("https://github.com/yan369-ivy/openai-code-review-log.git")
                 .setDirectory(new File("repo"))
-                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, ""))
+                .setCredentialsProvider(credentialsProvider)
                 .call();
 
         String dateFolderName = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -135,7 +139,7 @@ public class OpenAiCodeReview {
 
         git.add().addFilepattern(dateFolderName + "/" + fileName).call();
         git.commit().setMessage("Add new file via GitHub Actions").call();
-        git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(token, "")).call();
+        git.push().setCredentialsProvider(credentialsProvider).call();
 
         System.out.println("Changes have been pushed to the repository.");
 
