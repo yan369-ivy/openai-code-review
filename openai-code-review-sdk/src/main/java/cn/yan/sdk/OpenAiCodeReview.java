@@ -22,6 +22,7 @@ import java.util.Random;
 public class OpenAiCodeReview {
 
     private static final String GITHUB_TOKEN = "GITHUB_TOKEN";
+    private static final String CODE_TOKEN = "CODE_TOKEN";
 
     public static void main(String[] args) throws Exception {
         System.out.println("测试执行");
@@ -59,7 +60,10 @@ public class OpenAiCodeReview {
     private static String getGithubToken() {
         String token = System.getenv(GITHUB_TOKEN);
         if (token == null || token.trim().isEmpty()) {
-            throw new IllegalStateException("Please set GITHUB_TOKEN.");
+            token = System.getenv(CODE_TOKEN);
+        }
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalStateException("Please set GITHUB_TOKEN or CODE_TOKEN.");
         }
         return token.trim();
     }
