@@ -2,6 +2,7 @@ package cn.yan.sdk.domain.model;
 
 public enum Model {
 
+    DEEPSEEK_CHAT("deepseek-chat", "DeepSeek 通用对话模型"),
     @Deprecated
     CHATGLM_6B_SSE("chatGLM_6b_SSE", "ChatGLM-6B 测试模型"),
     @Deprecated

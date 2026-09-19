@@ -1,8 +1,8 @@
-package cn.yan.sdk.domain.model;
+package cn.yan.sdk.infrastructure.openai.dto;
 
 import java.util.List;
 
-public class ChatCompletionSyncResponse {
+public class ChatCompletionSyncResponseDTO {
 
     private List<Choice> choices;
 

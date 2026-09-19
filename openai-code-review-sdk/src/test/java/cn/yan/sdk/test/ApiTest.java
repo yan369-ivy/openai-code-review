@@ -1,7 +1,7 @@
 package cn.yan.sdk.test;
 
-import cn.yan.sdk.domain.model.ChatCompletionSyncResponse;
-import cn.yan.sdk.domain.model.Message;
+import cn.yan.sdk.infrastructure.openai.dto.ChatCompletionSyncResponseDTO;
+import cn.yan.sdk.infrastructure.weixin.dto.TemplateMessageDTO;
 import cn.yan.sdk.types.utils.BearerTokenUtils;
 import cn.yan.sdk.types.utils.WXAccessTokenUtils;
 import com.alibaba.fastjson2.JSON;
@@ -70,7 +70,7 @@ public class ApiTest {
         in.close();
         connection.disconnect();
 
-        ChatCompletionSyncResponse response = JSON.parseObject(content.toString(), ChatCompletionSyncResponse.class);
+        ChatCompletionSyncResponseDTO response = JSON.parseObject(content.toString(), ChatCompletionSyncResponseDTO.class);
         System.out.println(response.getChoices().get(0).getMessage().getContent());
 
     }
@@ -81,7 +81,10 @@ public class ApiTest {
         String accessToken = WXAccessTokenUtils.getAccessToken();
         System.out.println(accessToken);
 
-        Message message = new Message();
+        TemplateMessageDTO message = new TemplateMessageDTO(
+                System.getenv("WEIXIN_TOUSER"),
+                System.getenv("WEIXIN_TEMPLATE_ID")
+        );
         message.setUrl("https://github.com/yan369-ivy/openai-code-review-log/blob/main/2026-09-16/HZJQmE4eBGy9.md");
         message.put("project","big-market");
         message.put("review","feat: 新加功能");

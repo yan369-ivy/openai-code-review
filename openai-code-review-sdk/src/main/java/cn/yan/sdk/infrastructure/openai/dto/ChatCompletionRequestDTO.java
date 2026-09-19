@@ -1,10 +1,12 @@
-package cn.yan.sdk.domain.model;
+package cn.yan.sdk.infrastructure.openai.dto;
+
+import cn.yan.sdk.domain.model.Model;
 
 import java.util.List;
 
-public class ChatCompletionRequest {
+public class ChatCompletionRequestDTO {
 
-    private String model = Model.GLM_4_FLASH.getCode();
+    private String model = Model.DEEPSEEK_CHAT.getCode();
     private List<Prompt> messages;
 
     public static class Prompt {
